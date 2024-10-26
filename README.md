@@ -4,7 +4,7 @@
 
 ## Introducción
 
-Mi objetivo es crear un badUSB que desplieuge un sistema de persistencia en un sistema con permisos de administrador y layout de teclado en Español.
+Mi objetivo es crear un badUSB que realice el despliegue de persistencia en un sistema con permisos de administrador y layout de teclado en Español.
 
 Para esto voy a utilizar una arduino pro micro y la libreria Keyboard.h nativa de Arduino.
 
@@ -67,7 +67,7 @@ Como un primer acercamiento a la segunda fase del proyecto, la persistencia, la 
 
 El apartado badUSB esta finalizado y actualmente me encuentro investigando y haciendo pruebas de cifrados de msfvenom y tecnicas de ofuscación para crear backdoors distintas y que no detecte el Defender y poderlas programar como tareas.
 
-El codigo esta muy comentado y hay un TODO con los objetivos a realizar para más información
+El codigo esta muy comentado y hay un TODO con los objetivos a realizar para más información.
 
 
 
