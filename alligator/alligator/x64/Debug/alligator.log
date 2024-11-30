@@ -1,0 +1,4 @@
+﻿  main.c
+C:\Users\germa\source\repos\alligator\alligator\main.c(104,36): warning C4047: 'función': 'ULONG_PTR' es distinto en los niveles de direccionamiento indirecto de 'void *'
+C:\Users\germa\source\repos\alligator\alligator\main.c(104,36): warning C4024: 'QueueUserAPC': tipos distintos para el parámetro formal y el parámetro real 3
+  alligator.vcxproj -> C:\Users\germa\source\repos\alligator\alligator\x64\Debug\alligator.exe
